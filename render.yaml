@@ -1,0 +1,48 @@
+services:
+  - type: web
+    name: apexcontractor
+    runtime: node
+    plan: standard
+    buildCommand: pnpm install && pnpm build
+    startCommand: pnpm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: apexcontractor-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: VITE_APP_ID
+        sync: false
+      - key: OAUTH_SERVER_URL
+        value: https://api.manus.im
+      - key: VITE_OAUTH_PORTAL_URL
+        value: https://oauth.manus.im
+      - key: GOOGLE_MAPS_API_KEY
+        value: AIzaSyCXAAsjoZq2I8sN6hESDDLXMTZHbpYF1N8
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: QUICKBOOKS_CLIENT_ID
+        sync: false
+      - key: QUICKBOOKS_CLIENT_SECRET
+        sync: false
+      - key: SNOWFLAKE_ACCOUNT
+        value: PVZKANA-GUC20741
+      - key: SNOWFLAKE_USER
+        value: APEXCONTRACTOR
+      - key: SNOWFLAKE_PASSWORD
+        sync: false
+      - key: SNOWFLAKE_WAREHOUSE
+        value: COMPUTE_WH
+      - key: SNOWFLAKE_DATABASE
+        value: APEXCONTRACTOR_DB
+    healthCheckPath: /
+    previewPlan: starter
+
+databases:
+  - name: apexcontractor-db
+    databaseName: apexcontractor
+    user: apexcontractor_user
+    plan: standard
